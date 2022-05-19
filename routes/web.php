@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware("auth") // controllo che mostra contenuto solo ad utenti loggati
+->namespace("Admin") // Aggiunge il prefisso sui controller, precisamente la cartella dove ci troviamo
+->prefix("admin") // prefisso per URI
+->name("admin.") // prefisso ai name
+->group(function(){ // raggruppamento
+    // Rotte per Admin
+    Route::get("/", "HomeController@index")->name("home");
+    Route::resource("posts", "PostController");
+});
